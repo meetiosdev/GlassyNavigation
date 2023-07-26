@@ -12,7 +12,6 @@ class ImagesController: UIViewController {
     var data: [Photo] = []
     var currentPage = 1
     let itemsPerPage = 20
-    var isLoading = false
     
     
     @IBOutlet weak var imagesTableView: UITableView!{
@@ -22,38 +21,51 @@ class ImagesController: UIViewController {
         }
     }
     
+    @IBOutlet weak var totalLabel: UILabel!
+    
+    @IBOutlet weak var pageLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //fetchNextPage()
-        getImages()
+
+        fetchImages()
         
     }
     
-    func getImages(){
-        let baseUrl = "https://api.slingacademy.com/v1/sample-data/photos"
-        let params = ["offset":"\(currentPage)",
-                      "limit":"\(itemsPerPage)"]
-      
-        APIClient.shared.get(url: baseUrl,parameters: params, responseType: PhotosBase.self) { result in
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self.data.append(contentsOf: response.photos)
-                    self.currentPage += 1
-                    self.isLoading = false
-                    self.imagesTableView.reloadData()
-                    
-                    // Hide the loader activity indicator
-                    self.imagesTableView.tableFooterView?.isHidden = true
-                }
-                
-            case .failure(let error):
-                // Handle error
-                print(error)
+    func fetchImages() {
+            // You can use 'Task.detached' to run the asynchronous function
+            Task.detached {
+                await self.getImages()
             }
         }
+    
+    
+    func getImages() async {
+        let baseUrl = "https://api.slingacademy.com/v1/sample-data/photos"
+        let params = ["offset": "\(currentPage)",
+                      "limit": "\(itemsPerPage)"]
+       
+        do {
+            let response: PhotosBase = try await APIClient.shared.get(url: baseUrl, parameters: params, responseType: PhotosBase.self)
+            
+            // Update UI on the main thread
+            DispatchQueue.main.async {
+                self.data.append(contentsOf: response.photos)
+                self.data = self.data.removingDuplicates(by: \.id)
+                self.currentPage += 1
+                self.imagesTableView.reloadData()
+                
+                // Hide the loader activity indicator
+                self.imagesTableView.tableFooterView?.isHidden = true
+                self.totalLabel.text = "Total Results : \(self.data.count)"
+                self.pageLabel.text = "Page Number : \(response.offset)"
+            }
+        } catch {
+            // Handle error
+            print("Error: \(error)")
+        }
     }
+
     
     
     
@@ -96,9 +108,20 @@ extension ImagesController: UITableViewDelegate, UITableViewDataSource{
         let contentHeight = scrollView.contentSize.height
         
         if offsetY > contentHeight - scrollView.frame.height * 2 {
-            getImages()
+            fetchImages()
         }
     }
     
     
+}
+
+extension Array where Element: Hashable {
+    func removingDuplicates<Key: Hashable>(by key: KeyPath<Element, Key>) -> [Element] {
+        let uniqueElements = reduce(into: [Key: Element]()) { result, element in
+            let key = element[keyPath: key]
+            result[key] = element
+        }.values
+        
+        return Array(uniqueElements)
+    }
 }

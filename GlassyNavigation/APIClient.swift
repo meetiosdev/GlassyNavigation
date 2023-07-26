@@ -15,44 +15,79 @@ class APIClient {
     private init() {}
     
     private var activityIndicator: UIActivityIndicatorView?
+    private var lastAPICallTime: Date?
+    private let minimumAPICallInterval: TimeInterval = 1.0
     
     // MARK: - Public Methods
     
-    func get<T: Codable>(url: String, parameters: [String: String]? = nil, responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+    
+    func get<T: Codable>(url: String, parameters: [String: String]? = nil, responseType: T.Type) async throws -> T {
         guard let nUrl = URL(string: url) else {
-            let error = NSError(domain: "InvalidURL", code: -1, userInfo: nil)
-            completion(.failure(error))
-            return
+            throw NSError(domain: "InvalidURL", code: -1, userInfo: nil)
         }
         
-           var urlComponents = URLComponents(url: nUrl, resolvingAgainstBaseURL: false)
-           urlComponents?.queryItems = parameters?.map { URLQueryItem(name: $0.key, value: $0.value) }
-           
-           guard let finalURL = urlComponents?.url else {
-               let error = NSError(domain: "InvalidURL", code: -1, userInfo: nil)
-               completion(.failure(error))
-               return
-           }
-           
-           performRequest(url: finalURL, httpMethod: "GET", responseType: responseType, completion: completion)
-       }
+        var urlComponents = URLComponents(url: nUrl, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = parameters?.map { URLQueryItem(name: $0.key, value: $0.value) }
+        
+        guard let finalURL = urlComponents?.url else {
+            throw NSError(domain: "InvalidURL", code: -1, userInfo: nil)
+        }
+        
+        // Check if the minimum time interval has passed since the last API call
+        let now = Date()
+        if let lastCallTime = lastAPICallTime, now.timeIntervalSince(lastCallTime) < minimumAPICallInterval {
+            // Throttle the call by returning a default value or an error, or simply do nothing.
+            // You can also consider queuing the requests and handling them later.
+            throw NSError(domain: "ThrottledAPIRequest", code: -1, userInfo: nil)
+        }
+        
+        // Record the current time as the last API call time
+        lastAPICallTime = now
+        
+        let (data, response) = try await performRequest(url: finalURL, httpMethod: "GET")
+        
+        guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
+            throw NSError(domain: "InvalidResponse", code: -1, userInfo: nil)
+        }
+        
+        let decoder = JSONDecoder()
+        let decodedResponse = try decoder.decode(T.self, from: data)
+        return decodedResponse
+    }
     
-    func post<T: Codable>(url: String, body: [String: Any], responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let nUrl = URL(string: url) else {return}
-        performRequest(url: nUrl, httpMethod: "POST", body: body, responseType: responseType, completion: completion)
+    func post<T: Codable>(url: String, body: [String: Any], responseType: T.Type) async throws -> T {
+        
+        guard let nUrl = URL(string: url) else {
+            throw NSError(domain: "InvalidURL", code: -1, userInfo: nil)
+        }
+        
+        let now = Date()
+        if let lastCallTime = lastAPICallTime, now.timeIntervalSince(lastCallTime) < minimumAPICallInterval {
+            // Throttle the call by returning a default value or an error, or simply do nothing.
+            // You can also consider queuing the requests and handling them later.
+            throw NSError(domain: "ThrottledAPIRequest", code: -1, userInfo: nil)
+        }
+        
+        // Record the current time as the last API call time
+        lastAPICallTime = now
+        
+        
+        let (data, response) = try await performRequest(url: nUrl, httpMethod: "POST", body: body)
+        
+        guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
+            throw NSError(domain: "InvalidResponse", code: -1, userInfo: nil)
+        }
+        
+        let decoder = JSONDecoder()
+        let decodedResponse = try decoder.decode(T.self, from: data)
+        return decodedResponse
     }
     
     // MARK: - Private Methods
     
-    // MARK: - Private Methods
-    
-    private func performRequest<T: Codable>(url: URL, httpMethod: String, body: [String: Any]? = nil, responseType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        
+    private func performRequest(url: URL, httpMethod: String, body: [String: Any]? = nil) async throws -> (Data, URLResponse) {
         let requestId = UUID().uuidString
-        
         logRequestStarted(requestId: requestId, method: httpMethod, url: url, headers: nil, body: body)
-        
-        //showActivityIndicator()
         
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod
@@ -62,53 +97,18 @@ class APIClient {
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
             } catch {
-               // hideActivityIndicator()
-                completion(.failure(error))
-                logRequestFailed(requestId: requestId, error: error)
-                return
+                throw error
             }
         }
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-           
-          //  self.hideActivityIndicator()
-            
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.showErrorAlert(message: error.localizedDescription)
-                }
-                completion(.failure(error))
-                self.logRequestFailed(requestId: requestId, error: error)
-                return
-            }
-            
-            guard let data = data else {
-                let error = NSError(domain: "NoDataError", code: -1, userInfo: nil)
-                DispatchQueue.main.async {
-                    self.showErrorAlert(message: "No data received from server.")
-                }
-                completion(.failure(error))
-                self.logRequestFailed(requestId: requestId, error: error)
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                let decodedResponse = try decoder.decode(T.self, from: data)
-                completion(.success(decodedResponse))
-                self.logRequestReceivedResponse(requestId: requestId, response: response, data: data)
-            } catch {
-                DispatchQueue.main.async {
-                    self.showErrorAlert(message: "Failed to decode response.")
-                }
-                completion(.failure(error))
-                self.logRequestFailed(requestId: requestId, error: error)
-            }
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            logRequestReceivedResponse(requestId: requestId, response: response, data: data)
+            return (data, response)
+        } catch {
+            throw error
         }
-        
-        task.resume()
     }
-    
     private func logRequestStarted(requestId: String, method: String, url: URL, headers: [AnyHashable: Any]?, body: Any?) {
         let timestamp = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
         print("\(timestamp) ⚪️ Request started\n\n       id: \(requestId)\n   method: \(method)\n      url: \(url.absoluteString)\n  headers: \(headers ?? [:])\n     body: \(body ?? "None")\n")

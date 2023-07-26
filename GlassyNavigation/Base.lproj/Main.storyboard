@@ -50,26 +50,60 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Dag-2i-ECN">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="818"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="772"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="JwL-na-GXB" id="USH-Ml-mhX"/>
                                     <outlet property="delegate" destination="JwL-na-GXB" id="MC9-A8-LKn"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="diz-VU-leE">
+                                <rect key="frame" x="0.0" y="772" width="393" height="80"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="32G-DV-fHq">
+                                        <rect key="frame" x="0.0" y="0.0" width="196.66666666666666" height="80"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Page" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHD-0e-es3">
+                                        <rect key="frame" x="196.66666666666663" y="0.0" width="196.33333333333337" height="80"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="32G-DV-fHq" firstAttribute="leading" secondItem="diz-VU-leE" secondAttribute="leading" id="Rci-4w-voB"/>
+                                    <constraint firstItem="GHD-0e-es3" firstAttribute="leading" secondItem="32G-DV-fHq" secondAttribute="trailing" id="UUg-AF-7BP"/>
+                                    <constraint firstItem="32G-DV-fHq" firstAttribute="width" secondItem="GHD-0e-es3" secondAttribute="width" id="WA6-Wq-db5"/>
+                                    <constraint firstItem="GHD-0e-es3" firstAttribute="top" secondItem="diz-VU-leE" secondAttribute="top" id="aZp-hP-iHJ"/>
+                                    <constraint firstAttribute="height" constant="80" id="cD2-6F-p2k"/>
+                                    <constraint firstAttribute="bottom" secondItem="32G-DV-fHq" secondAttribute="bottom" id="gW9-Ox-pSx"/>
+                                    <constraint firstAttribute="trailing" secondItem="GHD-0e-es3" secondAttribute="trailing" id="ivM-0d-qcr"/>
+                                    <constraint firstAttribute="bottom" secondItem="GHD-0e-es3" secondAttribute="bottom" id="j8l-Gf-ssd"/>
+                                    <constraint firstItem="32G-DV-fHq" firstAttribute="top" secondItem="diz-VU-leE" secondAttribute="top" id="rAl-rP-Oca"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2w9-u7-FiZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Dag-2i-ECN" firstAttribute="top" secondItem="e1V-l4-ABv" secondAttribute="top" id="2Tk-lR-fiz"/>
                             <constraint firstItem="Dag-2i-ECN" firstAttribute="leading" secondItem="2w9-u7-FiZ" secondAttribute="leading" id="82v-KF-gOT"/>
-                            <constraint firstItem="2w9-u7-FiZ" firstAttribute="bottom" secondItem="Dag-2i-ECN" secondAttribute="bottom" id="KvA-b6-rVx"/>
+                            <constraint firstItem="diz-VU-leE" firstAttribute="leading" secondItem="2w9-u7-FiZ" secondAttribute="leading" id="K6G-1C-Y0S"/>
                             <constraint firstItem="2w9-u7-FiZ" firstAttribute="trailing" secondItem="Dag-2i-ECN" secondAttribute="trailing" id="LyU-Oi-Bui"/>
+                            <constraint firstItem="2w9-u7-FiZ" firstAttribute="trailing" secondItem="diz-VU-leE" secondAttribute="trailing" id="N6d-4E-gfb"/>
+                            <constraint firstAttribute="bottom" secondItem="diz-VU-leE" secondAttribute="bottom" id="rpT-FC-oAv"/>
+                            <constraint firstItem="diz-VU-leE" firstAttribute="top" secondItem="Dag-2i-ECN" secondAttribute="bottom" id="w0k-lv-ZEt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Images" id="M7H-5J-NOG"/>
                     <connections>
                         <outlet property="imagesTableView" destination="Dag-2i-ECN" id="v0A-pt-MsQ"/>
+                        <outlet property="pageLabel" destination="GHD-0e-es3" id="Hbe-Aw-H1X"/>
+                        <outlet property="totalLabel" destination="32G-DV-fHq" id="Ez5-rs-Gwp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivj-O7-pWU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
