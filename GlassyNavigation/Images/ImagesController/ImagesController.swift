@@ -1,50 +1,43 @@
-//
-//  ImagesController.swift
-//  GlassyNavigation
-//
-//  Created by Swarajmeet Singh on 26/07/23.
-//
-
 import UIKit
 
 class ImagesController: UIViewController {
-    
+    // MARK: - Properties
     var data: [Photo] = []
     var currentPage = 1
     let itemsPerPage = 20
+    var isFetchingData = false // To avoid multiple API calls
     
-    
-    @IBOutlet weak var imagesTableView: UITableView!{
-        didSet{
+    // MARK: - IBOutlets
+    @IBOutlet weak var imagesTableView: UITableView! {
+        didSet {
             let nib = UINib(nibName: "ImageTableCell", bundle: Bundle.main)
             imagesTableView.register(nib, forCellReuseIdentifier: "ImageTableCell")
         }
     }
     
     @IBOutlet weak var totalLabel: UILabel!
-    
     @IBOutlet weak var pageLabel: UILabel!
     
+    // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         fetchImages()
-        
     }
     
+    // MARK: - API Call
     func fetchImages() {
-            // You can use 'Task.detached' to run the asynchronous function
-            Task.detached {
-                await self.getImages()
-            }
+        guard !isFetchingData else { return }
+        isFetchingData = true
+        
+        Task.detached {
+            await self.getImages()
         }
-    
+    }
     
     func getImages() async {
         let baseUrl = "https://api.slingacademy.com/v1/sample-data/photos"
-        let params = ["offset": "\(currentPage)",
-                      "limit": "\(itemsPerPage)"]
-       
+        let params = ["offset": "\(currentPage)", "limit": "\(itemsPerPage)"]
+        
         do {
             let response: PhotosBase = try await APIClient.shared.get(url: baseUrl, parameters: params, responseType: PhotosBase.self)
             
@@ -57,29 +50,29 @@ class ImagesController: UIViewController {
                 
                 // Hide the loader activity indicator
                 self.imagesTableView.tableFooterView?.isHidden = true
-                self.totalLabel.text = "Total Results : \(self.data.count)"
-                self.pageLabel.text = "Page Number : \(response.offset)"
+                self.totalLabel.text = "Total Results: \(self.data.count)"
+                self.pageLabel.text = "Page Number: \(response.offset)"
+                
+                self.isFetchingData = false
             }
         } catch {
             // Handle error
             print("Error: \(error)")
+            self.isFetchingData = false
         }
     }
-
-    
-    
-    
-    
-    
 }
-extension ImagesController: UITableViewDelegate, UITableViewDataSource{
+
+// MARK: - Table View DataSource and Delegate
+extension ImagesController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableCell") as! ImageTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableCell", for: indexPath) as! ImageTableCell
         cell.photo = self.data[indexPath.row]
+        cell.indexLabel.text = "Index: \(indexPath.row) -- Id: \(self.data[indexPath.row].id)"
         return cell
     }
     
@@ -97,6 +90,7 @@ extension ImagesController: UITableViewDelegate, UITableViewDataSource{
         if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
             let spinner = UIActivityIndicatorView(style: .gray)
             spinner.startAnimating()
+            spinner.color = .red
             spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
             tableView.tableFooterView = spinner
             tableView.tableFooterView?.isHidden = false
@@ -108,13 +102,19 @@ extension ImagesController: UITableViewDelegate, UITableViewDataSource{
         let contentHeight = scrollView.contentSize.height
         
         if offsetY > contentHeight - scrollView.frame.height * 2 {
+            // Hide the activity indicator if already fetching data
+            if isFetchingData {
+                imagesTableView.tableFooterView?.isHidden = false
+                return
+            }
+            
+            // Load more data when reaching the end of the table
             fetchImages()
         }
     }
-    
-    
 }
 
+// MARK: - Array Extension for Removing Duplicates
 extension Array where Element: Hashable {
     func removingDuplicates<Key: Hashable>(by key: KeyPath<Element, Key>) -> [Element] {
         let uniqueElements = reduce(into: [Key: Element]()) { result, element in

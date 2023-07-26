@@ -11,6 +11,7 @@ class ImageTableCell: UITableViewCell {
     @IBOutlet weak var entityImage: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var indexLabel: UILabel!
     
     var photo : Photo!{
         didSet{

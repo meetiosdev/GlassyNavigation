@@ -33,24 +33,36 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdt-Ez-JOy">
-                                <rect key="frame" x="15" y="264.66666666666669" width="370" height="205.33333333333331"/>
+                                <rect key="frame" x="15" y="264.66666666666669" width="370" height="165.33333333333331"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Index" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxb-O2-9xS">
+                                <rect key="frame" x="15" y="445" width="370" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="NVO-CI-v2x"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Sxb-O2-9xS" firstAttribute="top" secondItem="Kdt-Ez-JOy" secondAttribute="bottom" constant="15" id="0ZD-SR-dEF"/>
                             <constraint firstItem="sd8-KD-W8G" firstAttribute="top" secondItem="AA6-PK-GXp" secondAttribute="bottom" constant="15" id="49v-NC-pMm"/>
                             <constraint firstItem="Kdt-Ez-JOy" firstAttribute="leading" secondItem="sd8-KD-W8G" secondAttribute="leading" id="9Ng-WU-iYz"/>
                             <constraint firstItem="Kdt-Ez-JOy" firstAttribute="top" secondItem="sd8-KD-W8G" secondAttribute="bottom" constant="7" id="CEm-GH-9xC"/>
                             <constraint firstAttribute="trailing" secondItem="sd8-KD-W8G" secondAttribute="trailing" constant="15" id="Dru-2b-zth"/>
                             <constraint firstItem="AA6-PK-GXp" firstAttribute="leading" secondItem="vI2-7w-Ohl" secondAttribute="leading" id="Fv2-KH-F7B"/>
                             <constraint firstItem="Kdt-Ez-JOy" firstAttribute="trailing" secondItem="sd8-KD-W8G" secondAttribute="trailing" id="Q1V-2y-tog"/>
+                            <constraint firstItem="Sxb-O2-9xS" firstAttribute="trailing" secondItem="Kdt-Ez-JOy" secondAttribute="trailing" id="S0c-Xp-bnI"/>
                             <constraint firstItem="sd8-KD-W8G" firstAttribute="leading" secondItem="vI2-7w-Ohl" secondAttribute="leading" constant="15" id="cuj-mn-hkT"/>
                             <constraint firstAttribute="trailing" secondItem="AA6-PK-GXp" secondAttribute="trailing" id="iCd-CB-mNh"/>
                             <constraint firstItem="AA6-PK-GXp" firstAttribute="top" secondItem="vI2-7w-Ohl" secondAttribute="top" id="mRv-Ly-8hX"/>
-                            <constraint firstAttribute="bottom" secondItem="Kdt-Ez-JOy" secondAttribute="bottom" id="yM3-YP-R4c"/>
+                            <constraint firstAttribute="bottom" secondItem="Sxb-O2-9xS" secondAttribute="bottom" id="oNX-Yc-4t3"/>
+                            <constraint firstItem="Sxb-O2-9xS" firstAttribute="leading" secondItem="Kdt-Ez-JOy" secondAttribute="leading" id="tpi-HK-RJI"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -65,6 +77,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="Kdt-Ez-JOy" id="2PL-ho-m1T"/>
                 <outlet property="entityImage" destination="AA6-PK-GXp" id="sg1-6N-2ST"/>
+                <outlet property="indexLabel" destination="Sxb-O2-9xS" id="uaZ-x1-q2d"/>
                 <outlet property="titleLabel" destination="sd8-KD-W8G" id="gtF-qh-Fqm"/>
             </connections>
             <point key="canvasLocation" x="196.94656488549617" y="127.46478873239437"/>
