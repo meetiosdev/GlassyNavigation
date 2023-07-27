@@ -13,7 +13,6 @@ class ChatController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = .yellow
     }
     
     override func viewDidAppear(_ animated: Bool) {

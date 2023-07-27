@@ -26,7 +26,6 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2w9-u7-FiZ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Dag-2i-ECN" firstAttribute="top" secondItem="e1V-l4-ABv" secondAttribute="top" id="2Tk-lR-fiz"/>
                             <constraint firstItem="Dag-2i-ECN" firstAttribute="leading" secondItem="2w9-u7-FiZ" secondAttribute="leading" id="82v-KF-gOT"/>
@@ -41,7 +40,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ivj-O7-pWU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2207" y="732"/>
+            <point key="canvasLocation" x="3039" y="261"/>
         </scene>
         <!--Chat Controller-->
         <scene sceneID="IA4-zI-1FU">
@@ -56,37 +55,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B3C-VE-PSC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4016" y="-23"/>
+            <point key="canvasLocation" x="3039" y="-465"/>
         </scene>
-        <!--Feed-->
-        <scene sceneID="2t0-AM-Yd5">
+        <!--Home Page Controller-->
+        <scene sceneID="S71-g3-EQE">
             <objects>
-                <navigationController storyboardIdentifier="FeedNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="JKO-gX-OeO" customClass="FeedNavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feed" image="doc.text.image" catalog="system" id="jJA-0R-IDu"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k1n-Th-Jl2">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
+                <viewController storyboardIdentifier="HomePageController" id="zR7-pg-xW5" customClass="HomePageController" customModule="GlassyNavigation" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="984-mb-QvK">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gpq-7r-xuW">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </containerView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DYc-On-B3W"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="DYc-On-B3W" firstAttribute="trailing" secondItem="Gpq-7r-xuW" secondAttribute="trailing" id="Ovw-wu-iGy"/>
+                            <constraint firstItem="Gpq-7r-xuW" firstAttribute="top" secondItem="984-mb-QvK" secondAttribute="top" id="Tjb-KT-iw1"/>
+                            <constraint firstAttribute="bottom" secondItem="Gpq-7r-xuW" secondAttribute="bottom" id="coe-z6-3b5"/>
+                            <constraint firstItem="Gpq-7r-xuW" firstAttribute="leading" secondItem="DYc-On-B3W" secondAttribute="leading" id="f7i-o0-X6T"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="DPQ-9X-jhR"/>
                     <connections>
-                        <segue destination="JwL-na-GXB" kind="relationship" relationship="rootViewController" id="Dxg-PK-gcF"/>
+                        <outlet property="containerView" destination="Gpq-7r-xuW" id="c6M-w6-NZW"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="46h-aW-MQs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VXp-EH-gqv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="732"/>
-        </scene>
-        <!--Feed-->
-        <scene sceneID="yMg-Ku-0xM">
-            <objects>
-                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="wrh-3T-3jb" customClass="PageViewController" customModule="GlassyNavigation" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feed" image="internaldrive" catalog="system" id="7k5-1p-PSp"/>
-                    <navigationItem key="navigationItem" id="2FF-wd-4s7"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wPW-Ws-gNG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1982" y="4"/>
+            <point key="canvasLocation" x="2117" y="4"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="6UN-0Z-HDD">
@@ -98,15 +97,37 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
+                    <connections>
+                        <segue destination="znq-S1-Xfx" kind="relationship" relationship="viewControllers" id="j3a-sn-XDa"/>
+                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nzz-Qw-vDR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="35.877862595419849" y="3.5211267605633805"/>
         </scene>
+        <!--Feed-->
+        <scene sceneID="QVX-Ij-51j">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="znq-S1-Xfx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Feed" image="doc.text" catalog="system" id="Zlw-jt-tjb"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="BEK-iW-IKR">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="scrollEdgeAppearance"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zR7-pg-xW5" kind="relationship" relationship="rootViewController" id="Vlp-v3-XIl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1kj-oX-FAO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1146" y="4"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="doc.text.image" catalog="system" width="115" height="128"/>
-        <image name="internaldrive" catalog="system" width="128" height="88"/>
+        <image name="doc.text" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
