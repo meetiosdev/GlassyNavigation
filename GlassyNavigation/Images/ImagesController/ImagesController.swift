@@ -24,6 +24,11 @@ class ImagesController: UIViewController {
         fetchImages()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.addLogoToNavigationBarItem()
+    }
+    
     // MARK: - API Call
     func fetchImages() {
         guard !isFetchingData else { return }
@@ -50,8 +55,8 @@ class ImagesController: UIViewController {
                 
                 // Hide the loader activity indicator
                 self.imagesTableView.tableFooterView?.isHidden = true
-                self.totalLabel.text = "Total Results: \(self.data.count)"
-                self.pageLabel.text = "Page Number: \(response.offset)"
+//                self.totalLabel.text = "Total Results: \(self.data.count)"
+//                self.pageLabel.text = "Page Number: \(response.offset)"
                 
                 self.isFetchingData = false
             }
