@@ -9,9 +9,8 @@ import UIKit
 import UIKit
 
 class HomePageController: UIViewController {
-
-    @IBOutlet weak var containerView: UIView!
     
+    @IBOutlet weak var containerView: UIView!
     private var pageViewController: UIPageViewController!
     private var viewControllers: [UIViewController] = []
     
@@ -36,7 +35,7 @@ class HomePageController: UIViewController {
         
         // Add the page view controller to the containerView
         addChild(pageViewController)
-      
+        
         containerView.addSubview(pageViewController.view)
         pageViewController.view.frame = containerView.bounds
         pageViewController.didMove(toParent: self)
@@ -46,7 +45,14 @@ class HomePageController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addLogoToNavigationBarItem()
-      
+        let image = "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=1000"
+        let circularBarButton = UIBarButtonItem.profileImage(urlString: image, target: self, action: #selector(profileImageTapped))
+        navigationItem.leftBarButtonItem = circularBarButton
+    }
+    
+    @objc func profileImageTapped() {
+        // Handle the button tap event here
+        print("Profile image button tapped!")
     }
 }
 
@@ -75,42 +81,17 @@ extension HomePageController: UIPageViewControllerDelegate {
     
     // If you want to perform actions when the user finishes a swipe gesture, you can implement the following delegate method:
     /*
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if completed, let currentViewController = pageViewController.viewControllers?.first {
-            // Do something with the currentViewController after the swipe animation is completed
-            if let currentIndex = viewControllers.firstIndex(of: currentViewController) {
-                if currentIndex == 0 {
-                    // The user swiped to FeedController
-                } else if currentIndex == 1 {
-                    // The user swiped to ChatController
-                }
-            }
-        }
-    }
-    */
-}
-
-
-
-extension UIViewController {
-
-    func addLogoToNavigationBarItem() {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.image =  UIImage(named: "logo")
-        //imageView.backgroundColor = .lightGray
-
-        // In order to center the title view image no matter what buttons there are, do not set the
-        // image view as title view, because it doesn't work. If there is only one button, the image
-        // will not be aligned. Instead, a content view is set as title view, then the image view is
-        // added as child of the content view. Finally, using constraints the image view is aligned
-        // inside its parent.
-        let contentView = UIView()
-        self.navigationItem.titleView = contentView
-        self.navigationItem.titleView?.addSubview(imageView)
-        imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-    }
+     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+     if completed, let currentViewController = pageViewController.viewControllers?.first {
+     // Do something with the currentViewController after the swipe animation is completed
+     if let currentIndex = viewControllers.firstIndex(of: currentViewController) {
+     if currentIndex == 0 {
+     // The user swiped to FeedController
+     } else if currentIndex == 1 {
+     // The user swiped to ChatController
+     }
+     }
+     }
+     }
+     */
 }

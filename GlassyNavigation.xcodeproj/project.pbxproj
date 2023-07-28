@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A0F71762A72DA1A00F2D726 /* HomePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F71752A72DA1A00F2D726 /* HomePageController.swift */; };
+		4A2D41152A73F56100A25DF9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D41142A73F56100A25DF9 /* Extensions.swift */; };
 		4AB89A692A70E13400B05866 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB89A682A70E13400B05866 /* AppDelegate.swift */; };
 		4AB89A6B2A70E13400B05866 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB89A6A2A70E13400B05866 /* SceneDelegate.swift */; };
 		4AB89A702A70E13400B05866 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AB89A6E2A70E13400B05866 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		4A0F71752A72DA1A00F2D726 /* HomePageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageController.swift; sourceTree = "<group>"; };
+		4A2D41142A73F56100A25DF9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		4AB89A652A70E13400B05866 /* GlassyNavigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlassyNavigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AB89A682A70E13400B05866 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AB89A6A2A70E13400B05866 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			children = (
 				4AB89A682A70E13400B05866 /* AppDelegate.swift */,
 				4AB89A6A2A70E13400B05866 /* SceneDelegate.swift */,
+				4A2D41142A73F56100A25DF9 /* Extensions.swift */,
 				4AB89A882A70EE5500B05866 /* APIClient.swift */,
 				4A0F71752A72DA1A00F2D726 /* HomePageController.swift */,
 				4AB89A8C2A7153DA00B05866 /* ChatController.swift */,
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AB89A872A70EBBA00B05866 /* Photo.swift in Sources */,
+				4A2D41152A73F56100A25DF9 /* Extensions.swift in Sources */,
 				4A0F71762A72DA1A00F2D726 /* HomePageController.swift in Sources */,
 				4AB89A692A70E13400B05866 /* AppDelegate.swift in Sources */,
 				4AB89A8D2A7153DA00B05866 /* ChatController.swift in Sources */,
